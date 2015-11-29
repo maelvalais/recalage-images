@@ -8,8 +8,8 @@ f,g=lib.get_images()
 
 lamb=10
 mu=10
-nitermax=500
 stepini=0.001
+nitermax=5000
 ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
 
 fig, ax = plt.subplots(2,3)

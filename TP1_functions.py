@@ -97,7 +97,7 @@ def objective_function(f,g,ux,uy,lamb,mu) :
     return 1/2. * \
         (np.power(np.linalg.norm(f_u - g),2) \
         + mu * np.power(np.linalg.norm(dx(uy) + dy(ux)),2) \
-        + (lamb+mu) * np.power(np.linalg.norm(dx(ux) + dy(ux)),2)), \
+        + (lamb+mu) * np.power(np.linalg.norm(dx(ux) + dy(uy)),2)), \
         f_u
 
 

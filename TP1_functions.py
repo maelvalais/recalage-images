@@ -179,8 +179,8 @@ def RecalageDG_TP(f,g,lamb,mu,nitermax,stepini) :
         grad_R_x = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(dyT(dy(ux)) + 2*dyT(dx(uy)))
         grad_R_y = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(2*dxT(dy(ux)) + 2*dxT(dx(uy)))
 
-        gradx = grad_E_x = grad_R_x
-        grady = grad_E_y = grad_R_y
+        gradx = grad_E_x + grad_R_x
+        grady = grad_E_y + grad_R_y
 
         ux,uy,step=linesearch(ux,uy,step,gradx,grady,obj,f,g,lamb,mu)
         step_list.append(step)

@@ -26,4 +26,8 @@ ax[0,2].set_title('objective history')
 ax[1,2].plot(np.log(step))
 ax[1,2].set_title('step history (log scale)')
 plt.show()
+while not plt.waitforbuttonpress():
+    None
+
+
 

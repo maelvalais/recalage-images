@@ -62,17 +62,18 @@ def dx(im) :
     d[:-1,:] = im[1:,:] - im[:-1,:]
     return d
         
+# ATTENTION: Début indices à 0 en python
 def dyT(im) :
     d=np.zeros(im.shape)
-    d[:,1]    = -im[:,1]
-    d[:,2:-1] = -dy(im)[:,1:-2]
+    d[:,0]    = -im[:,0]
+    d[:,1:-1] = -dy(im)[:,0:-2] 
     d[:,-1]   = im[:,-2]
     return d
 
 def dxT(im) :
     d=np.zeros(im.shape)
-    d[1,:]    = -im[1,:]
-    d[2:-1,:] = -dx(im)[1:-2,:]
+    d[0,:]    = -im[0,:]
+    d[1:-1,:] = -dx(im)[0:-2,:]
     d[-1,:]   = im[-2,:]
     return d
 

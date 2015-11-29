@@ -88,12 +88,9 @@ def dxT(im) :
 #   
 #   ux:     R^2 -> R
 #             x => ux(x)
-# 
-# NOTE: Intégrale de f*g sur V = Prod. scal. (f,g) sur V
-# = Somme sur V de f(i,j)*g(i,j) (c'est le prod. scal choisi)
-
 def objective_function(f,g,ux,uy,lamb,mu) :
     f_u = interpol(f,ux,uy) # f_u appartient à R^2 -> R
+    #print f_u[0:10]
     return 1/2. * \
         (np.power(np.linalg.norm(f_u - g),2) \
         + mu * np.power(np.linalg.norm(dx(uy) + dy(ux)),2) \

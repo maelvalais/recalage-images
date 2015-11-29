@@ -173,8 +173,8 @@ def RecalageDG_TP(f,g,lamb,mu,nitermax,stepini) :
         grad_E_x = (f_u - g) * interpol(dx(f),ux,uy) # grad_f(x+u(x))_x => interpol(dx(f),ux,uy)
         grad_E_y = (f_u - g) * interpol(dy(f),ux,uy) # grad_f(x+u(x))_y => interpol(dy(f),ux,uy)
         
-        grad_R_x = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(dyT(dy(ux)) + 2*dyT(dx(uy)))
-        grad_R_y = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(2*dxT(dy(ux)) + 2*dxT(dx(uy)))
+        grad_R_x = mu*(dyT(dy(ux)) + dyT(dx(uy))) + (lamb+mu)*(dxT(dx(ux)) + dxT(dy(uy)))
+        grad_R_y = mu*(dxT(dy(ux)) + dxT(dx(uy))) + (lamb+mu)*(dyT(dx(ux)) + dyT(dy(uy)))
 
         gradx = grad_E_x + grad_R_x
         grady = grad_E_y + grad_R_y

@@ -170,8 +170,8 @@ def RecalageDG_TP(f,g,lamb,mu,nitermax,stepini) :
         # intermédiaires (mutualiser les résultats) pour la lisibilité
 
         f_u = interpol(f,ux,uy) # f_u appartient à R^2 -> R
-        grad_E_x = (f_u - g) * dx(f_u)
-        grad_E_y = (f_u - g) * dy(f_u)
+        grad_E_x = (f_u - g) * interpol(dx(f),ux,uy) # grad_f(x+u(x))_x => interpol(dx(f),ux,uy)
+        grad_E_y = (f_u - g) * interpol(dy(f),ux,uy) # grad_f(x+u(x))_y => interpol(dy(f),ux,uy)
         
         grad_R_x = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(dyT(dy(ux)) + 2*dyT(dx(uy)))
         grad_R_y = 1/2.*(lamb+mu)*(2*dxT(dx(ux)) + dyT(dy(uy))) + 1/2.*mu*(2*dxT(dy(ux)) + 2*dxT(dx(uy)))

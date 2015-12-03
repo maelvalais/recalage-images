@@ -119,6 +119,8 @@ def JTPhi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
     JTPhi_1 = np.dot(dfx,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))
     JTPhi_2 = np.dot(dfy,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))    
     return [JTPhi_1, JTPhi_2]
+
+
 # Pour la fonction JTJ on a besoin à la fois
 # de JTPhi(Jp(p))
 # Donc j'ai créé une fonction qui calcule ce
@@ -129,8 +131,6 @@ def Jp(p1,p2,dfx,dfy,lamb,mu):
     Jp_3 = np.sqrt(mu) * (dx(p1) + dy(p2))
     return [Jp_1, Jp_2, Jp_3]
     
-# fxu et fyu correspondent aux composantes x et y de
-# f o (I+u)
         
 def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
     # D'abord on calcule Jp(p)

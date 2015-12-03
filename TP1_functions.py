@@ -115,14 +115,33 @@ def linesearch(ux,uy,step,descentx,descenty,obj_old,f,g,lamb,mu) :
 # JTPsi calcule Jacob_u(u)^T .* phi sachant que 
 # l'interpolation est déjà données, c'est à dire que
 # dfx = interp(grad_f_x, ux, uy)
-def JTPsi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
-    JTPsi_x = np.dot(dfx,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))
-    JTPsi_y = np.dot(dfy,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))    
-    return [JTPsi_x, JTPsi_y]
+def JTPhi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
+    JTPhi_1 = np.dot(dfx,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))
+    JTPhi_2 = np.dot(dfy,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))    
+    return [JTPhi_1, JTPhi_2]
+# Pour la fonction JTJ on a besoin à la fois
+# de JTPhi(Jp(p))
+# Donc j'ai créé une fonction qui calcule ce
+# Jp avec p appartenant à V^2
+def Jp(p1,p2,dfx,dfy,lamb,mu):
+    Jp_1 = np.dot(np.transpose(dfx),p1) + np.dot(np.transpose(dfy),p2) 
+    Jp_2 = np.sqrt(mu) * (dy(p1) + dx(p2))
+    Jp_3 = np.sqrt(mu) * (dx(p1) + dy(p2))
+    return [Jp_1, Jp_2, Jp_3]
+    
+# fxu et fyu correspondent aux composantes x et y de
+# f o (I+u)
         
 def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
-    #JTpsi( 
-    None
+    # D'abord on calcule Jp(p)
+    Jp_1,Jp_2,Jp_3 = Jp(p1,p2,dfx,dfy,lamb,mu)
+    # Ensuite on calcule JTPsi(résultats de Jp(p))
+    x,y = JTPsi(Jp_1,Jp_2,Jp_3,dfx,dfy,lamb,mu)
+    # Enfin on calcule epsilon*I p
+    eye = np.eye(np.size(p1,0),np.size(p1,1)) * epsilon
+    eye_1 = np.dot(eye,p1)
+    eye_2 = np.dot(eye,p2)
+    return [x+eye_1, y+eye_2]
 
     
 def CGSolve(u0x,u0y,lamb,mu,b,epsilon,dfx,dfy) :
@@ -208,8 +227,13 @@ def RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,epsi) :
         obj,fu=objective_function(f,g,ux,uy,lamb,mu)
         CF.append(obj)
         # Gradient of F at point u
-        raise ValueError('Compute b here')
-        raise ValueError('Compute dfx,dfy here')    
+        b_1 = interpol(f,ux,uy)-g
+        b_2 = np.sqrt(mu) * (dy(ux)+dx(uy)) 
+        b_3 = np.sqrt(mu) * (dx(ux)+dy(uy)) 
+
+        dfx = interpol(dx(f),ux,uy)
+        dfy = interpol(dy(f),ux,uy)
+
         [descentx,descenty]=CGSolve(descentx,descenty,lamb,mu,b,epsi,dfx,dfy)
         ux,uy,step=linesearch(ux,uy,step,descentx,descenty,obj,f,g,lamb,mu)
         step_list.append(step)

@@ -1,9 +1,8 @@
-#!/usr/bin/env python
+#!/ur/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 import TP1_functions as lib
-from joblib import Parallel, delayed
 
 def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
     ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
@@ -17,7 +16,7 @@ def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
     ax[0,1].imshow(g, origin='lower')
     ax[0,1].set_title('target function')
 
-    ax[1,0].quiver(ux,uy, color='b')
+    ax[1,0].quiver(uy,ux, color='b')
     ax[1,0].set_title('displacement field')
     ax[1,1].imshow(lib.interpol(f,ux,uy), origin='lower')
     ax[1,1].set_title('final function')
@@ -46,21 +45,24 @@ def tester_avec_images_reelles():
     g = g[:,:351]
     produire_image("irm",f,g,lamb,mu,stepini,nitermax)
 
+#from joblib import Parallel, delayed
 def tester_image_simple():
     f,g=lib.get_images()
-    lamb=[0,10,50,100]
-    mu=[0,10,50,100]
-    stepini=[0.1,0.01,0.001,0.0001]
-    nitermax=[10000]
+    lamb=[0,10,50,70,100]
+    mu=[0,10,50,70,100]
+    stepini=[0.001]
+    nitermax=[100000]
     for m in mu:
         for s in stepini:
             for n in nitermax:
-                Parallel(n_jobs=4)(delayed(produire_image)("simple",f,g,l,m,n,s) for l in lamb)
+		for l in lamb:
+                	produire_image("simple",f,g,l,m,n,s)
+                #Parallel(n_jobs=4)(delayed(produire_image)("simple",f,g,l,m,n,s) for l in lamb)
 
 
 
 if __name__ == '__main__':
     f,g=lib.get_images()
-    produire_image("simple",f,g,10,10,2000,0.001)
+    produire_image("simple",f,g,50,50,1000,0.001)
     #tester_image_simple()
 

@@ -111,11 +111,19 @@ def linesearch(ux,uy,step,descentx,descenty,obj_old,f,g,lamb,mu) :
         obj,fu=objective_function(f,g,tmpx,tmpy,lamb,mu)
     return tmpx,tmpy,step
 
-def JTPsi(phi1,ph2,phi3,dfx,dfy,lamb,mu) :
-    raise ValueError('to be implemented')  
+# dfx = dx(f)
+# JTPsi calcule Jacob_u(u)^T .* phi sachant que 
+# l'interpolation est déjà données, c'est à dire que
+# dfx = interp(grad_f_x, ux, uy)
+def JTPsi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
+    JTPsi_x = np.dot(dfx,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))
+    JTPsi_y = np.dot(dfy,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))    
+    return [JTPsi_x, JTPsi_y]
         
 def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
-    raise ValueError('to be implemented')  
+    #JTpsi( 
+    None
+
     
 def CGSolve(u0x,u0y,lamb,mu,b,epsilon,dfx,dfy) :
     # Solves JTJ[ux,uy]=b
@@ -182,7 +190,7 @@ def RecalageDG_TP(f,g,lamb,mu,nitermax,stepini) :
 
         ux,uy,step=linesearch(ux,uy,step,gradx,grady,obj,f,g,lamb,mu)
         step_list.append(step)
-        if (niter % 3 ==0) :
+        if (niter % 1000 ==0) :
             print 'iteration :',niter,' cost function :',obj,'step :',step
     return ux,uy,np.array(CF),np.array(step_list)
           

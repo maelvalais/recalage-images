@@ -17,7 +17,7 @@ def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
     ax[0,1].imshow(g, origin='lower')
     ax[0,1].set_title('target function')
 
-    ax[1,0].quiver(ux,uy, scale=0.8, color='r', units='inches')
+    ax[1,0].quiver(ux,uy, color='b')
     ax[1,0].set_title('displacement field')
     ax[1,1].imshow(lib.interpol(f,ux,uy), origin='lower')
     ax[1,1].set_title('final function')
@@ -61,6 +61,6 @@ def tester_image_simple():
 
 if __name__ == '__main__':
     f,g=lib.get_images()
-    produire_image("simple",f,g,50,50,1000,0.001)
+    produire_image("simple",f,g,10,10,2000,0.001)
     #tester_image_simple()
 

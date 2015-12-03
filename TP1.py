@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import TP1_functions as lib
 
 def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
-    ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
+    #ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
+    ux,uy,CF,step=lib.RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,20)
     plt.rcParams['text.usetex'] = 'true'
     plt.rcParams['text.latex.unicode'] = 'true'
     plt.rcParams['font.family'] = 'serif'
@@ -63,6 +64,6 @@ def tester_image_simple():
 
 if __name__ == '__main__':
     f,g=lib.get_images()
-    produire_image("simple",f,g,50,50,1000,0.001)
+    produire_image("simple",f,g,50,50,1000,0.1)
     #tester_image_simple()
 

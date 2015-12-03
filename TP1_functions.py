@@ -112,7 +112,7 @@ def linesearch(ux,uy,step,descentx,descenty,obj_old,f,g,lamb,mu) :
     return tmpx,tmpy,step
 
 # dfx = dx(f)
-# JTPsi calcule Jacob_u(u)^T .* phi sachant que 
+# JTPhi calcule Jacob_u(u)^T .* phi sachant que 
 # l'interpolation est déjà données, c'est à dire que
 # dfx = interp(grad_f_x, ux, uy)
 def JTPhi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
@@ -135,8 +135,8 @@ def Jp(p1,p2,dfx,dfy,lamb,mu):
 def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
     # D'abord on calcule Jp(p)
     Jp_1,Jp_2,Jp_3 = Jp(p1,p2,dfx,dfy,lamb,mu)
-    # Ensuite on calcule JTPsi(résultats de Jp(p))
-    x,y = JTPsi(Jp_1,Jp_2,Jp_3,dfx,dfy,lamb,mu)
+    # Ensuite on calcule JTPhi(résultats de Jp(p))
+    x,y = JTPhi(Jp_1,Jp_2,Jp_3,dfx,dfy,lamb,mu)
     # Enfin on calcule epsilon*I p
     eye = np.eye(np.size(p1,0),np.size(p1,1)) * epsilon
     eye_1 = np.dot(eye,p1)
@@ -231,6 +231,8 @@ def RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,epsi) :
         b_2 = np.sqrt(mu) * (dy(ux)+dx(uy)) 
         b_3 = np.sqrt(mu) * (dx(ux)+dy(uy)) 
 
+        b = [b_1,b_2,b_3]
+
         dfx = interpol(dx(f),ux,uy)
         dfy = interpol(dy(f),ux,uy)
 
@@ -238,7 +240,7 @@ def RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,epsi) :
         ux,uy,step=linesearch(ux,uy,step,descentx,descenty,obj,f,g,lamb,mu)
         step_list.append(step)
         # Display
-        if (niter % 3 ==0) :
+        if (niter % 1 ==0) :
             print 'iteration :',niter,' cost function :',obj,'step :',step
     return ux,uy,np.array(CF),np.array(step_list)
   

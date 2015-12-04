@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import TP1_functions as lib
 
 def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
-    #ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
-    ux,uy,CF,step=lib.RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,100)
+    ux,uy,CF,step=lib.RecalageDG_TP(f,g,lamb,mu,nitermax,stepini)
+    #ux,uy,CF,step=lib.RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,100)
     plt.rcParams['text.usetex'] = 'true'
     plt.rcParams['text.latex.unicode'] = 'true'
     plt.rcParams['font.family'] = 'serif'
@@ -70,5 +70,8 @@ if __name__ == '__main__':
 #parser = argparse.ArgumentParser(description='Lancer résolution fonction simple')
 #parser.add_argument('--dossier',action='store_true',default=''\
 #        help="Pour la commande --dot, afficher les numéros des noeuds")
+    #f,g=lib.get_images()
+    #produire_image("simple",f,g,50,50,1000,0.001)
+    tester_image_simple()
 
 import argparse

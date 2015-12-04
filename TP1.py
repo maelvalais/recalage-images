@@ -13,14 +13,14 @@ def produire_image(nom,f,g,lamb,mu,nitermax,stepini):
     plt.rcParams['font.size'] = 9
     fig, ax = plt.subplots(2,3)
     ax[0,0].imshow(f, origin='lower')
-    ax[0,0].set_title('original function')
+    ax[0,0].set_title('original function $f$')
     ax[0,1].imshow(g, origin='lower')
-    ax[0,1].set_title('target function')
+    ax[0,1].set_title('target function $g$')
 
     ax[1,0].quiver(uy,ux, color='b')
-    ax[1,0].set_title('displacement field')
+    ax[1,0].set_title('displacement field $u$')
     ax[1,1].imshow(lib.interpol(f,ux,uy), origin='lower')
-    ax[1,1].set_title('final function')
+    ax[1,1].set_title('final function $f \circ (I+u)$')
     ax[0,2].plot(CF)
     ax[0,2].set_title('objective history')
     ax[1,2].plot(np.log(step))

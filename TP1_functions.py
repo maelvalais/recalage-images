@@ -116,8 +116,8 @@ def linesearch(ux,uy,step,descentx,descenty,obj_old,f,g,lamb,mu) :
 # l'interpolation est déjà données, c'est à dire que
 # dfx = interp(grad_f_x, ux, uy)
 def JTPhi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
-    JTPhi_1 = np.dot(dfx,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))
-    JTPhi_2 = np.dot(dfy,phi1) + np.sqrt(mu)*(dy(phi2)+dx(phi2)) + np.sqrt(mu)*(dx(phi3)+dy(phi3))    
+    JTPhi_1 = np.dot(dfx,phi1) + np.sqrt(mu)*(dyT(phi2)) + np.sqrt(mu)*(dxT(phi3))
+    JTPhi_2 = np.dot(dfy,phi1) + np.sqrt(mu)*(dxT(phi2)) + np.sqrt(mu)*(dyT(phi3))    
     return [JTPhi_1, JTPhi_2]
 
 
@@ -126,12 +126,11 @@ def JTPhi(phi1,phi2,phi3,dfx,dfy,lamb,mu) :
 # Donc j'ai créé une fonction qui calcule ce
 # Jp avec p appartenant à V^2
 def Jp(p1,p2,dfx,dfy,lamb,mu):
-    Jp_1 = np.dot(np.transpose(dfx),p1) + np.dot(np.transpose(dfy),p2) 
+    Jp_1 = np.dot(dfx,p1) + np.dot(dfy,p2) 
     Jp_2 = np.sqrt(mu) * (dy(p1) + dx(p2))
     Jp_3 = np.sqrt(mu) * (dx(p1) + dy(p2))
     return [Jp_1, Jp_2, Jp_3]
     
-        
 def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
     # D'abord on calcule Jp(p)
     Jp_1,Jp_2,Jp_3 = Jp(p1,p2,dfx,dfy,lamb,mu)
@@ -143,7 +142,6 @@ def JTJ(p1,p2,dfx,dfy,lamb,mu,epsilon) :
     eye_2 = np.dot(eye,p2)
     return [x+eye_1, y+eye_2]
 
-    
 def CGSolve(u0x,u0y,lamb,mu,b,epsilon,dfx,dfy) :
     # Solves JTJ[ux,uy]=b
     #lambd,mu,epsilon,dfx,dfy are needed in the computation of JTJ
@@ -226,13 +224,15 @@ def RecalageGN_TP(f,g,lamb,mu,nitermax,stepini,epsi) :
         niter+=1
         obj,fu=objective_function(f,g,ux,uy,lamb,mu)
         CF.append(obj)
-        # Gradient of F at point u
+
+        # Calcul de b (voir sujet)
         b_1 = interpol(f,ux,uy)-g
         b_2 = np.sqrt(mu) * (dy(ux)+dx(uy)) 
         b_3 = np.sqrt(mu) * (dx(ux)+dy(uy)) 
 
         b = [b_1,b_2,b_3]
 
+        # Gradient of F at point u
         dfx = interpol(dx(f),ux,uy)
         dfy = interpol(dy(f),ux,uy)
 
